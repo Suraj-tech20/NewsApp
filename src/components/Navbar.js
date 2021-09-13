@@ -33,9 +33,6 @@ export class Navbar extends Component {
                             <li className="nav-item">
                                 <Link className="nav-link" to="/science">Science</Link>
                             </li>
-                            {/* business entertainment general health science sports technology */}
-
-
                         </ul>
                     </div>
                 </div>
