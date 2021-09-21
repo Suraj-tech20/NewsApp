@@ -4,7 +4,7 @@ import Spinner from './Spinner';
 import PropTypes from 'prop-types';
 import InfiniteScroll from "react-infinite-scroll-component";
 
-export class News extends Component {
+export default class Query extends Component {
     static defaultProps = {
         country: 'in',
         pageSize: 8,
@@ -29,10 +29,10 @@ export class News extends Component {
         };
         document.title = `${this.capitalizeFirstletter(this.props.category)} - Daily Dose`
     }
-
+    // https://newsapi.org/v2/everything?q=tesla&from=2021-08-21&sortBy=publishedAt&apiKey=d8475f4b0d454dcdaf28ed200415e1d3
     async componentBuild() {
         this.props.setProgress(0);
-        let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=${this.props.apikey}&page=${this.state.page}&pageSize=${this.props.pageSize}`
+        let url = `https://newsapi.org/v2/everything?q=${this.props.query}&sortBy=publishedAt&apiKey=${this.props.apikey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
         this.props.setProgress(10);
         this.setState({ loading: true });
         let data = await fetch(url);
@@ -55,8 +55,7 @@ export class News extends Component {
         this.setState({
             page: this.state.page + 1
         });
-        let url = `https://newsapi.org/v2/top-headlines?country=in&category=${this.props.category}&apiKey=${this.props.apikey}&page=${this.state.page}&pageSize=${this.props.pageSize}`
-        // this.setState({ loading: true });
+        let url = `https://newsapi.org/v2/everything?q=${this.props.query}&sortBy=publishedAt&apiKey=${this.props.apikey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
         let data = await fetch(url);
         let parsedData = await data.json();
         this.setState({
@@ -69,7 +68,7 @@ export class News extends Component {
         try {
             return (
                 <>
-                    <h1 className="text-center mt-5">Daily Dose - Top{this.props.category !== 'general' ? " " + this.capitalizeFirstletter(this.props.category) : ""} headlines</h1>
+                    <h1 className="text-center mt-5">Daily Dose - Top headlines</h1>
                     {this.state.loading && <Spinner />}
                     <div className="container my-5">
                         <InfiniteScroll
@@ -79,7 +78,7 @@ export class News extends Component {
                             loader={<Spinner />}
                         >
                             <div className="d-flex justify-content-around mx-3" style={{ flexWrap: 'wrap' }}>
-                                {this.state.articles.map((element) => {
+                                {this.state.totalResults && this.state.articles.map((element) => {
                                     return (<div key={element.url} className="">
                                         <NewsItems title={element.title} description={element.description} imageUrl={!(element.urlToImage) ? '../download.png' : element.urlToImage}
                                             newsUrl={element.url} author={element.author} date={element.publishedAt} source={element.source.name} />
@@ -89,17 +88,15 @@ export class News extends Component {
                         </InfiniteScroll>
                     </div>
                 </ >
+
             )
         } catch (error) {
             return (
                 <>
-                    {console.log(error)}
                     <h1 className='mt-5'>An Unexpected error occured</h1>
+                    <p>Please go to home page. An try again...</p>
                 </>
             )
-
         }
     }
 }
-
-export default News
