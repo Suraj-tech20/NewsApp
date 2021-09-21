@@ -50,7 +50,7 @@ export class Navbar extends Component {
                             </ul>
                             <form className="d-flex">
                                 <input className="form-control me-2" id="searchQuery" type="search" placeholder="Search" aria-label="Search" />
-                                <Link className="btn btn-outline-success" type="submit" onClick={this.searchClick.bind(this)} to='/query'>Search</Link>
+                                <Link className="btn btn-danger" type="submit" onClick={this.searchClick.bind(this)} to='/query'>Search</Link>
                             </form>
                         </div>
                     </div>

@@ -29,7 +29,6 @@ export default class Query extends Component {
         };
         document.title = `${this.capitalizeFirstletter(this.props.category)} - Daily Dose`
     }
-    // https://newsapi.org/v2/everything?q=tesla&from=2021-08-21&sortBy=publishedAt&apiKey=d8475f4b0d454dcdaf28ed200415e1d3
     async componentBuild() {
         this.props.setProgress(0);
         let url = `https://newsapi.org/v2/everything?q=${this.props.query}&sortBy=publishedAt&apiKey=${this.props.apikey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
